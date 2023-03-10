@@ -9,25 +9,32 @@ import java.util.Set;
 
 import com.lozardo.cursomc.domain.enums.TipoCliente;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
+@Entity
 public class Cliente implements Serializable{
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private String email;
 	private String cpfOuCnpj;
 	
-	@OneToOne
-	private Cidade cidade;
-	
 	private Integer tipo; ///ARMAZENAR INTERNAMENTE INTEGER, EXTERNAMENTE TIPOCLIENTE (ENUM), ACRESCENTAR LINHA 36 .GETCOD() E ALLTERAR OS GET E SET
 	
-	@OneToMany
+	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
+	@ElementCollection  ///ENTIDADE FRACA
+	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>(); ///COLECAO QUE NAO ACEITA REPETICAO
 	
 	public Cliente() {
@@ -80,6 +87,22 @@ public class Cliente implements Serializable{
 
 	public void setTipo(TipoCliente tipo) {
 		this.tipo = tipo.getCod();
+	}
+	
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
+	public Set<String> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(Set<String> telefones) {
+		this.telefones = telefones;
 	}
 
 	@Override
