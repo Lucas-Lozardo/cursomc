@@ -3,6 +3,7 @@ package com.lozardo.cursomc.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.lozardo.cursomc.domain.enums.EstadoPagamento;
 
 import jakarta.persistence.Entity;
@@ -22,6 +23,7 @@ public abstract class Pagamento implements Serializable{  ///ABSTRACT PARA NAO P
 	private Integer id;
 	private Integer estado; ///ARMAZENAR INTERNAMENTE INTEGER, EXTERNAMENTE TIPOCLIENTE (ENUM), ACRESCENTAR LINHA 36 .GETCOD() E ALLTERAR OS GET E SET
 	
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
 	@MapsId   ///PARA QUE O ID DO PAGAMENTO SEJA O MESMO DO PEDIDO, NECESSARIO PARA MAPEAMENTO 1 PARA 1, PECULARIEDADE DO JPA, OLHAR MAPEAMENTO NO PAGAMENTO LINHA 23
